@@ -55,12 +55,12 @@ def threshold(img, color_space='BGR'):
 	# get S channel
 	img = img[:, :, 2]
 	# img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-	# img = cv2.blur(img, (7, 7))
+	img = cv2.blur(img, (3, 3))
 
 	cv2.imshow('', img)
 	cv2.waitKey(10000)
 
-	thresh = (240, 255)
+	thresh = (170, 255)
 	binary = np.zeros_like(img)
 	binary[(img > thresh[0]) & (img <= thresh[1])] = 255
 
@@ -70,28 +70,4 @@ def threshold(img, color_space='BGR'):
 # def perspective_transform(img, )
 
 
-def test_Calibrator():
-	calibrator = Calibrator()
-	folder = 'camera_cal'
-	for path in os.listdir(folder):
-		image = cv2.imread(os.path.join(folder, path), flags=cv2.IMREAD_COLOR)
-		undistorted = calibrator.undistort(image)
-		cv2.imwrite(os.path.join('output_images/calibration', path), undistorted)
-	folder = 'test_images'
-	for path in os.listdir(folder):
-		image = cv2.imread(os.path.join(folder, path), flags=cv2.IMREAD_COLOR)
-		undistorted = calibrator.undistort(image)
-		cv2.imwrite(os.path.join('output_images/calibration', path), undistorted)
-	print('Calibrator test is done')
 
-
-def test_threshold():
-	img = threshold(cv2.imread('test_images/test6.jpg', cv2.IMREAD_COLOR))
-	cv2.imshow('', img)
-	cv2.waitKey(10000)
-
-def test_perspective_transform():
-	pass
-if __name__ == '__main__':
-	# test_Calibrator()
-	test_threshold()
