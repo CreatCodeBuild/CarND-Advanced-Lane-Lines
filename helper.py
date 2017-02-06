@@ -37,7 +37,7 @@ class Calibrator:
 
 def s_threshold(img, color_space='BGR'):
 	"""
-	binary threshold this image
+	binary threshold this image using saturation channel(s channel)
 	:param         img: a colored image
 	:param color_space: color space of the input image. BGR or RGB
 	:return: thresholded image
@@ -66,6 +66,13 @@ def s_threshold(img, color_space='BGR'):
 
 
 def gradient_threshold(img, color_space='BGR'):
+	"""
+	use Sobel operator to take derivative in x(horizontal) direction
+	then threshold the gradient image
+	:param         img: a colored image
+	:param color_space: color space of the input image. BGR or RGB
+	:return: thresholded image
+	"""
 	if color_space == 'BGR':
 		gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 	elif color_space == 'RGB':
@@ -90,6 +97,9 @@ def gradient_threshold(img, color_space='BGR'):
 
 
 def combined_threshold(img, color_space='BGR'):
+	"""
+	combine s_threshold and gradient_threshold
+	"""
 	s_binary = s_threshold(img, color_space)
 	sober_x_binary = gradient_threshold(img, color_space)
 	# Stack each channel to view their individual contributions in green and blue respectively

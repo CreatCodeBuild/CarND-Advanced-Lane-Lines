@@ -1,3 +1,6 @@
+"""
+test for Class and function in helper.py
+"""
 from helper import *
 
 
@@ -44,4 +47,5 @@ def test_perspective_transform():
 if __name__ == '__main__':
 	# test_Calibrator()
 	# test_s_threshold()
+	# test_gradient_threshold()
 	test_combined_threshold()
