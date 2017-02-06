@@ -20,14 +20,28 @@ def test_Calibrator():
 	print('Calibrator test is done')
 
 
-def test_threshold():
+def test_s_threshold():
 	for image, file_name in fetch_image('test_images'):
-		image = threshold(image)
-		cv2.imwrite(os.path.join('output_images/threshold', file_name), image)
+		image = s_threshold(image)
+		cv2.imwrite(os.path.join('output_images/threshold', 's_threshold_'+file_name), image)
+
+
+def test_gradient_threshold():
+	for image, file_name in fetch_image('test_images'):
+		image = gradient_threshold(image)
+		cv2.imwrite(os.path.join('output_images/threshold', 'gradient_threshold_'+file_name), image)
+
+
+def test_combined_threshold():
+	for image, file_name in fetch_image('test_images'):
+		image = combined_threshold(image)
+		cv2.imwrite(os.path.join('output_images/threshold', 'combined_threshold_'+file_name), image)
 
 
 def test_perspective_transform():
 	pass
+
 if __name__ == '__main__':
 	# test_Calibrator()
-	test_threshold()
+	# test_s_threshold()
+	test_combined_threshold()
