@@ -42,10 +42,44 @@ def test_combined_threshold():
 
 
 def test_perspective_transform():
-	pass
+	t = Transformer()
+
+	a = cv2.imread('output_images/calibration/straight_lines1.jpg')
+	a = t.transform(a)
+	cv2.imwrite('output_images/transform/straight_lines1.jpg', a)
+
+	a = cv2.imread('output_images/calibration/straight_lines2.jpg')
+	a = t.transform(a)
+	cv2.imwrite('output_images/transform/straight_lines2.jpg', a)
+
+	a = cv2.imread('output_images/calibration/test1.jpg')
+	a = t.transform(a)
+	cv2.imwrite('output_images/transform/test1.jpg', a)
+
+	a = cv2.imread('output_images/calibration/test2.jpg')
+	a = t.transform(a)
+	cv2.imwrite('output_images/transform/test2.jpg', a)
+
+	a = cv2.imread('output_images/calibration/test3.jpg')
+	a = t.transform(a)
+	cv2.imwrite('output_images/transform/test3.jpg', a)
+
+	a = cv2.imread('output_images/calibration/test4.jpg')
+	a = t.transform(a)
+	cv2.imwrite('output_images/transform/test4.jpg', a)
+
+	a = cv2.imread('output_images/calibration/test5.jpg')
+	a = t.transform(a)
+	cv2.imwrite('output_images/transform/test5.jpg', a)
+
+	a = cv2.imread('output_images/calibration/test6.jpg')
+	a = t.transform(a)
+	cv2.imwrite('output_images/transform/test6.jpg', a)
+	# t.test()
 
 if __name__ == '__main__':
 	# test_Calibrator()
 	# test_s_threshold()
 	# test_gradient_threshold()
-	test_combined_threshold()
+	# test_combined_threshold()
+	test_perspective_transform()

@@ -169,8 +169,7 @@ class Transformer():
 	def transform(self, img):
 		M = cv2.getPerspectiveTransform(self.source, self.destination)
 		warped = cv2.warpPerspective(img, M, (1280, 720), flags=cv2.INTER_LINEAR)
-		cv2.imshow('', warped)
-		cv2.waitKey(10000)
+		return warped
 
 	def test(self):
 		a = cv2.imread('output_images/calibration/straight_lines1.jpg')
@@ -180,21 +179,3 @@ class Transformer():
 		cv2.imshow('', a)
 		cv2.waitKey(10000)
 
-t = Transformer()
-a = cv2.imread('output_images/calibration/straight_lines1.jpg')
-t.transform(a)
-a = cv2.imread('output_images/calibration/straight_lines2.jpg')
-t.transform(a)
-a = cv2.imread('output_images/calibration/test1.jpg')
-t.transform(a)
-a = cv2.imread('output_images/calibration/test2.jpg')
-t.transform(a)
-a = cv2.imread('output_images/calibration/test3.jpg')
-t.transform(a)
-a = cv2.imread('output_images/calibration/test4.jpg')
-t.transform(a)
-a = cv2.imread('output_images/calibration/test5.jpg')
-t.transform(a)
-a = cv2.imread('output_images/calibration/test6.jpg')
-t.transform(a)
-t.test()
