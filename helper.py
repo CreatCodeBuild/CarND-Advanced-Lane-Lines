@@ -1,6 +1,9 @@
 import cv2
 import os
+
+import numpy
 import numpy as np
+from scipy.misc import imresize
 
 
 class Calibrator:
@@ -113,7 +116,85 @@ def combined_threshold(img, color_space='BGR'):
 	combined_binary[(s_binary == 255) | (sober_x_binary == 255)] = 255
 	return combined_binary
 
-# def perspective_transform(img, )
+
+def perspective_transform(img):
+	# first I need to find 4 points
+	pass
+def region_of_interest(img, vertices):
+	"""
+	Applies an image mask.
+
+	Only keeps the region of the image defined by the polygon
+	formed from `vertices`. The rest of the image is set to black.
+	"""
+	# defining a blank mask to start with
+	mask = np.zeros_like(img)
+
+	# defining a 3 channel or 1 channel color to fill the mask with depending on the input image
+	if len(img.shape) > 2:
+		channel_count = img.shape[2]  # i.e. 3 or 4 depending on your image
+		ignore_mask_color = (255,) * channel_count
+	else:
+		ignore_mask_color = 255
+
+	# filling pixels inside the polygon defined by "vertices" with the fill color
+	cv2.fillPoly(mask, vertices, ignore_mask_color)
+
+	# returning the image only where mask pixels are nonzero
+	masked_image = cv2.bitwise_and(img, mask)
+	return masked_image
 
 
+class Transformer():
+	def __init__(self):
+		mid = 640
+		top = 80
+		bottom = 450
+		self.points = [
+			(mid-top, 470),
+			(mid+top, 470),
+			(mid+bottom, 710),
+			(mid-bottom, 710)
+		]
+		self.source = np.float32(self.points)
 
+		img_size = (1280, 720)
+		self.destination = np.float32([
+			[mid-bottom, 0],
+			[mid+bottom, 0],
+			[mid+bottom, 720],
+			[mid-bottom, 720]
+		])
+
+	def transform(self, img):
+		M = cv2.getPerspectiveTransform(self.source, self.destination)
+		warped = cv2.warpPerspective(img, M, (1280, 720), flags=cv2.INTER_LINEAR)
+		cv2.imshow('', warped)
+		cv2.waitKey(10000)
+
+	def test(self):
+		a = cv2.imread('output_images/calibration/straight_lines1.jpg')
+		print(a.shape)
+		a = region_of_interest(a, numpy.array([self.points]))
+
+		cv2.imshow('', a)
+		cv2.waitKey(10000)
+
+t = Transformer()
+a = cv2.imread('output_images/calibration/straight_lines1.jpg')
+t.transform(a)
+a = cv2.imread('output_images/calibration/straight_lines2.jpg')
+t.transform(a)
+a = cv2.imread('output_images/calibration/test1.jpg')
+t.transform(a)
+a = cv2.imread('output_images/calibration/test2.jpg')
+t.transform(a)
+a = cv2.imread('output_images/calibration/test3.jpg')
+t.transform(a)
+a = cv2.imread('output_images/calibration/test4.jpg')
+t.transform(a)
+a = cv2.imread('output_images/calibration/test5.jpg')
+t.transform(a)
+a = cv2.imread('output_images/calibration/test6.jpg')
+t.transform(a)
+t.test()
