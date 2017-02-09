@@ -187,7 +187,7 @@ def find_peak():
 	import matplotlib.pyplot as plt
 
 	t = Transformer()
-	a = cv2.imread('output_images/calibration/straight_lines1.jpg')
+	a = cv2.imread('output_images/calibration/test6.jpg')
 	a = combined_threshold(a, 'BGR')
 	# a = t.transform(a)
 
@@ -197,13 +197,14 @@ def find_peak():
 				print(y)
 		# print()
 	binary_warped = t.transform(a)
-	show(binary_warped)
+	# show(binary_warped)
 	# Assuming you have created a warped binary image called "binary_warped"
 	# Take a histogram of the bottom half of the image
 	# print(binary_warped.shape[0]/2)
 	histogram = np.sum(binary_warped[binary_warped.shape[0] // 2:, :], axis=0)
 	# Create an output image to draw on and  visualize the result
 	out_img = np.dstack((binary_warped, binary_warped, binary_warped)) * 255
+
 	# Find the peak of the left and right halves of the histogram
 	# These will be the starting point for the left and right lines
 	midpoint = np.int(histogram.shape[0] / 2)
