@@ -55,16 +55,15 @@ def s_threshold(img, color_space='BGR'):
 		raise Exception('Color Space Error')
 
 	# get S channel
-	img = img[:, :, 2]
-	# img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-	img = cv2.blur(img, (3, 3))
 
-	# cv2.imshow('', img)
-	# cv2.waitKey(10000)
+	img = img[:, :, 2]
+	img = cv2.medianBlur(img, 3)
 
 	thresh = (170, 255)
 	binary = np.zeros_like(img)
 	binary[(img > thresh[0]) & (img <= thresh[1])] = 255
+	# cv2.imshow('', binary)
+	# cv2.waitKey(10000)
 	return binary
 
 
@@ -88,14 +87,13 @@ def gradient_threshold(img, color_space='BGR'):
 	abs_sobel_x = np.absolute(sobel_x)  # Absolute x derivative to accentuate lines away from horizontal
 	scaled_sobel = np.uint8(255 * abs_sobel_x / np.max(abs_sobel_x))
 
-	# cv2.imshow('', scaled_sobel)
-	# cv2.waitKey(10000)
-
 	# Threshold x gradient
 	thresh_min = 20
-	thresh_max = 80
+	thresh_max = 100
 	sobel_x_binary = np.zeros_like(scaled_sobel)
 	sobel_x_binary[(scaled_sobel >= thresh_min) & (scaled_sobel <= thresh_max)] = 255
+	# cv2.imshow('', sobel_x_binary)
+	# cv2.waitKey(10000)
 	return sobel_x_binary
 
 
@@ -107,19 +105,18 @@ def combined_threshold(img, color_space='BGR'):
 	sober_x_binary = gradient_threshold(img, color_space)
 	# Stack each channel to view their individual contributions in green and blue respectively
 	# This returns a stack of the two binary images, whose components you can see as different colors
-	color_binary = np.dstack((np.zeros_like(sober_x_binary), sober_x_binary, s_binary))
-	cv2.imshow('', color_binary)
-	cv2.waitKey(10000)
+	# color_binary = np.dstack((np.zeros_like(sober_x_binary), sober_x_binary, s_binary))
+	# cv2.imshow('', color_binary)
+	# cv2.waitKey(10000)
 
 	# Combine the two binary thresholds
 	combined_binary = np.zeros_like(sober_x_binary)
 	combined_binary[(s_binary == 255) | (sober_x_binary == 255)] = 255
+	# cv2.imshow('', combined_binary)
+	# cv2.waitKey(10000)
 	return combined_binary
 
 
-def perspective_transform(img):
-	# first I need to find 4 points
-	pass
 def region_of_interest(img, vertices):
 	"""
 	Applies an image mask.
