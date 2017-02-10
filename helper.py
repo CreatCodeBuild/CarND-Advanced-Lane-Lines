@@ -144,7 +144,8 @@ def region_of_interest(img, vertices):
 
 class Transformer:
 	def __init__(self):
-		mid = 640
+		img_size = (1280, 720)
+		mid = img_size[0]/2
 		top = 80
 		bottom = 450
 		self.points = [
@@ -154,8 +155,6 @@ class Transformer:
 			(mid-bottom, 710)
 		]
 		self.source = np.float32(self.points)
-
-		img_size = (1280, 720)
 		self.destination = np.float32([
 			[mid-bottom, 0],
 			[mid+bottom, 0],
@@ -164,11 +163,12 @@ class Transformer:
 		])
 
 	def transform(self, img):
-		M = cv2.getPerspectiveTransform(self.source, self.destination)
-		warped = cv2.warpPerspective(img, M, (1280, 720), flags=cv2.INTER_LINEAR)
-		return warped
+		perspective_transform_matrix = cv2.getPerspectiveTransform(self.source, self.destination)
+		inverse_perspective_transform_matrix = cv2.getPerspectiveTransform(self.destination, self.source)
+		warped = cv2.warpPerspective(img, perspective_transform_matrix, (1280, 720), flags=cv2.INTER_LINEAR)
+		return warped, perspective_transform_matrix, inverse_perspective_transform_matrix
 
-	def test(self):
+	def debug(self):
 		a = cv2.imread('output_images/calibration/straight_lines1.jpg')
 		print(a.shape)
 		a = region_of_interest(a, numpy.array([self.points]))
@@ -190,7 +190,9 @@ def find_lines(image_file_path):
 	t = Transformer()
 	original_image = cv2.imread(image_file_path)
 	a = combined_threshold(original_image, 'BGR')
-	binary_warped = t.transform(a)
+	binary_warped, perspective_transform_matrix, inverse_perspective_transform_matrix = t.transform(a)
+	# todo: need to start from here tomorrow
+
 	# show(binary_warped)
 	# Assuming you have created a warped binary image called "binary_warped"
 	# Take a histogram of the bottom half of the image
@@ -335,7 +337,7 @@ def find_lines(image_file_path):
 	plt.xlim(0, 1280)
 	plt.ylim(720, 0)
 	plt.show()
-	return binary_warped, original_image, 
+	return binary_warped, original_image,
 
 
 def project_back(binary_warped, original_image, undistorted_image, inverse_perspective_transform_matrix,
