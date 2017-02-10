@@ -181,14 +181,15 @@ def show(a):
 	cv2.imshow('', a)
 	cv2.waitKey(10000)
 
-def find_peak():
+
+def find_lines(image_file_path):
 	import numpy as np
 	import cv2
 	import matplotlib.pyplot as plt
 
 	t = Transformer()
-	a = cv2.imread('output_images/calibration/test6.jpg')
-	a = combined_threshold(a, 'BGR')
+	original_image = cv2.imread(image_file_path)
+	a = combined_threshold(original_image, 'BGR')
 	binary_warped = t.transform(a)
 	# show(binary_warped)
 	# Assuming you have created a warped binary image called "binary_warped"
@@ -278,7 +279,7 @@ def find_peak():
 	plt.show()
 
 	####################################
-	a = cv2.imread('output_images/calibration/test6.jpg')
+	a = cv2.imread(image_file_path)
 	a = combined_threshold(a, 'BGR')
 	binary_warped = t.transform(a)
 
@@ -334,6 +335,38 @@ def find_peak():
 	plt.xlim(0, 1280)
 	plt.ylim(720, 0)
 	plt.show()
+	return binary_warped, original_image, 
 
-find_peak()
+
+def project_back(binary_warped, original_image, undistorted_image, inverse_perspective_transform_matrix,
+				 left_fitx, right_fitx, ploty):
+	### Project Back ###
+	# Create an image to draw the lines on
+	warp_zero = np.zeros_like(binary_warped).astype(np.uint8)
+	color_warp = np.dstack((warp_zero, warp_zero, warp_zero))
+
+	# Recast the x and y points into usable format for cv2.fillPoly()
+	pts_left = np.array([np.transpose(np.vstack([left_fitx, ploty]))])
+	pts_right = np.array([np.flipud(np.transpose(np.vstack([right_fitx, ploty])))])
+	pts = np.hstack((pts_left, pts_right))
+
+	# Draw the lane onto the warped blank image
+	cv2.fillPoly(color_warp, np.int_([pts]), (0, 255, 0))
+
+	# Warp the blank back to original image space using inverse perspective matrix (Minv)
+	newwarp = cv2.warpPerspective(color_warp,
+								  inverse_perspective_transform_matrix,
+								  (original_image.shape[1], original_image.shape[0]))
+	# Combine the result with the original image
+	result = cv2.addWeighted(undistorted_image, 1, newwarp, 0.3, 0)
+	show(result)
+
+find_lines('output_images/calibration/straight_lines1.jpg')
+find_lines('output_images/calibration/straight_lines2.jpg')
+find_lines('output_images/calibration/test1.jpg')
+find_lines('output_images/calibration/test2.jpg')
+find_lines('output_images/calibration/test3.jpg')
+find_lines('output_images/calibration/test4.jpg')
+find_lines('output_images/calibration/test5.jpg')
+find_lines('output_images/calibration/test6.jpg')
 
