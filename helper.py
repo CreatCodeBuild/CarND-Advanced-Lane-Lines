@@ -4,6 +4,9 @@ import os
 import numpy
 import numpy as np
 from scipy.misc import imresize
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
 
 
 class Calibrator:
@@ -182,18 +185,7 @@ def show(a):
 	cv2.waitKey(10000)
 
 
-def find_lines(image_file_path):
-	import numpy as np
-	import cv2
-	import matplotlib.pyplot as plt
-
-	t = Transformer()
-	original_image = cv2.imread(image_file_path)
-	a = combined_threshold(original_image, 'BGR')
-	binary_warped, perspective_transform_matrix, inverse_perspective_transform_matrix = t.transform(a)
-	# todo: need to start from here tomorrow
-
-	# show(binary_warped)
+def find_lines(binary_warped):
 	# Assuming you have created a warped binary image called "binary_warped"
 	# Take a histogram of the bottom half of the image
 	# print(binary_warped.shape[0]/2)
@@ -281,9 +273,6 @@ def find_lines(image_file_path):
 	plt.show()
 
 	####################################
-	a = cv2.imread(image_file_path)
-	a = combined_threshold(a, 'BGR')
-	binary_warped = t.transform(a)
 
 	# Assume you now have a new warped binary image
 	# from the next frame of video (also called "binary_warped")
@@ -337,7 +326,7 @@ def find_lines(image_file_path):
 	plt.xlim(0, 1280)
 	plt.ylim(720, 0)
 	plt.show()
-	return binary_warped, original_image,
+	return left_fitx, right_fitx, ploty
 
 
 def project_back(binary_warped, original_image, undistorted_image, inverse_perspective_transform_matrix,
@@ -362,13 +351,17 @@ def project_back(binary_warped, original_image, undistorted_image, inverse_persp
 	# Combine the result with the original image
 	result = cv2.addWeighted(undistorted_image, 1, newwarp, 0.3, 0)
 	show(result)
+	return result
 
-find_lines('output_images/calibration/straight_lines1.jpg')
-find_lines('output_images/calibration/straight_lines2.jpg')
-find_lines('output_images/calibration/test1.jpg')
-find_lines('output_images/calibration/test2.jpg')
-find_lines('output_images/calibration/test3.jpg')
-find_lines('output_images/calibration/test4.jpg')
-find_lines('output_images/calibration/test5.jpg')
-find_lines('output_images/calibration/test6.jpg')
+
+
+
+
+# find_lines('output_images/calibration/straight_lines2.jpg')
+# find_lines('output_images/calibration/test1.jpg')
+# find_lines('output_images/calibration/test2.jpg')
+# find_lines('output_images/calibration/test3.jpg')
+# find_lines('output_images/calibration/test4.jpg')
+# find_lines('output_images/calibration/test5.jpg')
+# find_lines('output_images/calibration/test6.jpg')
 

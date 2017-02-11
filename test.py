@@ -103,9 +103,33 @@ def test_perspective_transform():
 	cv2.imwrite('output_images/transform/combined_threshold_test6.jpg', a)
 	# t.test()
 
+
+def test_project_back():
+	def inner(name):
+		original = cv2.imread('test_images/'+name+'.jpg')
+		t = Transformer()
+		undistorted = cv2.imread('output_images/calibration/'+name+'.jpg')
+		thresholded_image = combined_threshold(undistorted, 'BGR')
+		warped, perspective_transform_matrix, inverse_perspective_transform_matrix = t.transform(thresholded_image)
+		left_fitx, right_fitx, ploty = find_lines(warped)
+
+		result = project_back(warped, original, undistorted, inverse_perspective_transform_matrix,
+							  left_fitx, right_fitx, ploty)
+		cv2.imwrite('output_images/project_back/'+name+'.jpg', result)
+	inner('straight_lines1')
+	inner('straight_lines2')
+	inner('test1')
+	inner('test2')
+	inner('test3')
+	inner('test4')
+	inner('test5')
+	inner('test6')
+
+
 if __name__ == '__main__':
 	# test_Calibrator()
 	# test_s_threshold()
 	# test_gradient_threshold()
 	# test_combined_threshold()
 	# test_perspective_transform()
+	test_project_back()
