@@ -43,7 +43,7 @@ The 3 key functions are `cv2.findChessboardCorners`, `cv2.calibrateCamera` and `
 
 You can run `test_Calibrator` function in __test.py__ to test this class. `test_Calibrator` will write undistorted images to directory [output_images/calibration](https://github.com/CreatCodeBuild/CarND-Advanced-Lane-Lines/tree/master/output_images/calibration)
 
-### Mixed Technique Binary Thresholding of Undistorted Image
+## Mixed Technique Binary Thresholding of Undistorted Image
 After first step, we need to binary thresholding this image so that we remove unnecessary information from this image.
 
 
@@ -51,3 +51,5 @@ After first step, we need to binary thresholding this image so that we remove un
 :-------------------------:|:-------------------------:
 ![](test_images/test2.jpg)  |  ![](output_images/threshold/combined_threshold_test2.jpg)
 ![](test_images/test5.jpg)  |  ![](output_images/threshold/combined_threshold_test5.jpg)
+
+As you can see, the thresholding is robust regardless the color, shadow and lighting of the line, road and environment.
