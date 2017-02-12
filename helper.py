@@ -262,6 +262,7 @@ def find_lines(binary_warped):
 	right_fit = np.polyfit(righty, rightx, 2)
 
 	if debug:
+		print('DEBUG')
 		# Generate x and y values for plotting
 		ploty = np.linspace(0, binary_warped.shape[0] - 1, binary_warped.shape[0])
 		left_fitx = left_fit[0] * ploty ** 2 + left_fit[1] * ploty + left_fit[2]
