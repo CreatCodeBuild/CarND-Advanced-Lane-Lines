@@ -41,6 +41,8 @@ In __helper.py__, you can find `class Calibrator`. I use this class to do both c
 
 The 3 key functions are `cv2.findChessboardCorners`, `cv2.calibrateCamera` and `cv2.undistort`.
 
+You can find the math equation at 
+
 You can run `test_Calibrator` function in __test.py__ to test this class. `test_Calibrator` will write undistorted images to directory [output_images/calibration](https://github.com/CreatCodeBuild/CarND-Advanced-Lane-Lines/tree/master/output_images/calibration)
 
 ## Mixed Technique Binary Thresholding of Undistorted Image
@@ -61,3 +63,13 @@ I combined x-direction gradient threshold and S channel threshold of the HSL col
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
 ![](test_images/test2.jpg)  | ![](output_images/threshold/gradient_threshold_test2.jpg) | ![](output_images/threshold/s_threshold_test2.jpg) | ![](output_images/threshold/combined_threshold_test2.jpg)
 ![](test_images/test5.jpg)  | ![](output_images/threshold/gradient_threshold_test5.jpg) | ![](output_images/threshold/s_threshold_test5.jpg) | ![](output_images/threshold/combined_threshold_test5.jpg)
+
+The reason to apply a combined threshold is that any single threshold technique is not robust enough to detect lines in various condition.
+
+#### Gradient Threshold
+I applied sobel operator to compute the gradient. There are x direction and y direction gradient.
+
+Original | Sobel 
+:-:|:-------------------------:
+![](https://d17h27t6h515a5.cloudfront.net/topher/2016/December/584cc3f4_curved-lane/curved-lane.jpg)| ![](https://d17h27t6h515a5.cloudfront.net/topher/2016/December/5840c575_screen-shot-2016-12-01-at-4.50.36-pm/screen-shot-2016-12-01-at-4.50.36-pm.png)
+
