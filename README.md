@@ -18,3 +18,6 @@ Modern camera uses lenses and lenses introduce distortion to images.
 
 For example:
 ![A Chess Board Image](https://github.com/CreatCodeBuild/CarND-Advanced-Lane-Lines/blob/master/camera_cal/calibration5.jpg)
+As you can see, the chess board is curved. But, this chess board has straight lines. This is a distortion.
+
+
