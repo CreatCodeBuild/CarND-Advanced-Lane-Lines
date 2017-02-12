@@ -53,3 +53,11 @@ After first step, we need to binary thresholding this image so that we remove un
 ![](test_images/test5.jpg)  |  ![](output_images/threshold/combined_threshold_test5.jpg)
 
 As you can see, the thresholding is robust regardless the color, shadow and lighting of the line, road and environment.
+
+### Method
+I combined gradient threshold and S channel threshold of the HSL color space.
+
+  Color   |  Gradient | S Channel | Combined              
+:-------------------------:|:-------------------------:
+![](test_images/test2.jpg)  | ![](output_images/threshold/gradient_threshold_test2.jpg) | ![](output_images/threshold/s_threshold_test2.jpg) | ![](output_images/threshold/combined_threshold_test2.jpg)
+![](test_images/test5.jpg)  | ![](output_images/threshold/gradient_threshold_test5.jpg) | ![](output_images/threshold/s_threshold_test5.jpg) | ![](output_images/threshold/combined_threshold_test5.jpg)
