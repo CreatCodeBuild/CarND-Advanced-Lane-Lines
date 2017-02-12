@@ -29,4 +29,4 @@ Chess board iamges are extremely useful for camera calibration, because we know 
 
 Our goal is to calibrate the camera which shot the driving video. Therefore, we gathered several chessboard images taken by the same camera.
 
-
+![]()![]()
