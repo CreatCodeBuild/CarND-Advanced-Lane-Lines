@@ -20,8 +20,8 @@ For example:
 ![A Chess Board Image](https://github.com/CreatCodeBuild/CarND-Advanced-Lane-Lines/blob/master/camera_cal/calibration5.jpg)
 As you can see, the chess board is curved. This is a distortion because in real life, this chess board has straight lines.
 
-Camera calibration is the process which finds how much a given camera distorts its images from real life objects. Image Undistortion is the step which uses a given camera calibration information to undistort images taken by this camera.
+__Camera calibration__ is the process which finds how much a given camera distorts its images from real life objects. __Image Undistortion__ is the step which uses a given camera calibration information to undistort images taken by this camera.
 
-Each camera has its own calibration. You can't use camera A's calibration to undistort images taken by camera B, unless camera A and B have the same calibration.
+__Each camera has its own calibration__. You can't use camera A's calibration to undistort images taken by camera B, unless camera A and B have the same calibration.
 
 
