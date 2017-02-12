@@ -17,4 +17,4 @@ Why camera calibration?
 Modern camera uses lenses and lenses introduce distortion to images.
 
 For example:
-![A Chess Board Image](/images/logo.png)
+![A Chess Board Image](https://github.com/CreatCodeBuild/CarND-Advanced-Lane-Lines/blob/master/camera_cal/calibration5.jpg)
