@@ -16,6 +16,36 @@ rightx = None
 lefty = None
 righty = None
 
+count = 0
+recent5_radius = []
+recent5_left_fitx = []
+recent5_right_fitx = []
+recent5_ploty = []
+
+
+def recent5(radius, left, right, plot):
+    """
+    :param radius:
+    :param left: left_fitx
+    :param right: right_fitx
+    :param plot: ploty
+    """
+    global count
+    if count == 5:
+        recent5_radius.pop(0)
+        recent5_left_fitx.pop(0)
+        recent5_right_fitx.pop(0)
+        recent5_ploty.pop(0)
+    else:
+        count += 1
+    recent5_radius.append(radius)
+    recent5_left_fitx.append(left)
+    recent5_right_fitx.append(right)
+    recent5_ploty.append(plot)
+    if count > 5:
+        print('WEqwdqefd')
+        exit()
+
 
 def pipeline(image):
     # NOTE: The output you return should be a color image (3 channel) for processing video below
@@ -35,10 +65,17 @@ def pipeline(image):
     left_fitx, right_fitx, ploty, left_fit, right_fit, leftx, rightx, lefty, righty = \
         search_near_last_frame(warped, left_fit, right_fit)
 
-    result = project_back(warped, image, undistorted, inverse_perspective_transform_matrix,
-                          left_fitx, right_fitx, ploty)
     radius = find_radius(ploty, leftx, rightx, lefty, righty)
-    cv2.putText(result, 'Radius: ' + str(radius) + ' m', (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2,
+
+    recent5(radius, left_fitx, right_fitx, ploty)
+
+    result = project_back(warped, image, undistorted, inverse_perspective_transform_matrix,
+                          np.add.reduce(recent5_left_fitx) / count,
+                          np.add.reduce(recent5_right_fitx) / count,
+                          np.add.reduce(recent5_ploty) / count)
+
+    cv2.putText(result, 'Radius: ' + str(np.add.reduce(recent5_radius) / count) + ' m',
+                (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2,
                 bottomLeftOrigin=False)
     
     return result
