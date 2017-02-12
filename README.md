@@ -36,3 +36,9 @@ Our goal is to calibrate the camera which shot the driving video. Therefore, we 
 ![](camera_cal/calibration7.jpg)  |  ![](camera_cal/calibration8.jpg)  |  ![](camera_cal/calibration9.jpg)
 
 I used 20 images in total. You can find all of them in [this folder](https://github.com/CreatCodeBuild/CarND-Advanced-Lane-Lines/tree/master/camera_cal)
+
+In helper.py, you can find `class Calibrator`. I use this class to do both calibration and undistortion.  
+
+The 3 key functions are `cv2.findChessboardCorners`, `cv2.calibrateCamera` and `cv2.undistort`.
+
+You can run `test_Calibrator` function in test.py to test this class. `test_Calibrator` will write undistorted images to directory [output_images/calibration](https://github.com/CreatCodeBuild/CarND-Advanced-Lane-Lines/tree/master/output_images/calibration)
