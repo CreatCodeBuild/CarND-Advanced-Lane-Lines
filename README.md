@@ -32,3 +32,8 @@ Our goal is to calibrate the camera which shot the driving video. Therefore, we 
              1             |            2
 :-------------------------:|:-------------------------:
 ![](camera_cal/calibration1.jpg)  |  ![](camera_cal/calibration2.jpg)
+![](camera_cal/calibration3.jpg)  |  ![](camera_cal/calibration4.jpg)
+![](camera_cal/calibration5.jpg)  |  ![](camera_cal/calibration6.jpg)
+![](camera_cal/calibration7.jpg)  |  ![](camera_cal/calibration8.jpg)
+
+I used 20 images in total. You can find all of them in [this folder](https://github.com/CreatCodeBuild/CarND-Advanced-Lane-Lines/tree/master/camera_cal)
