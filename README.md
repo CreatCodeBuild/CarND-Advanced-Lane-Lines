@@ -71,3 +71,6 @@ I applied sobel operator to compute the gradient. There are x direction and y di
 
 ![Original](https://d17h27t6h515a5.cloudfront.net/topher/2016/December/584cc3f4_curved-lane/curved-lane.jpg) ![](https://d17h27t6h515a5.cloudfront.net/topher/2016/December/5840c575_screen-shot-2016-12-01-at-4.50.36-pm/screen-shot-2016-12-01-at-4.50.36-pm.png)
 
+As you can see, sobel y catches the changes along the vertical direction. That is, horizontal lines are easily catches by sobel y because horizontal lines have very different color from its surrounding vertically.
+
+But, since lane lines need to be more vertical than horizontal, we choose sobel x as our gradient threshold.
