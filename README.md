@@ -24,4 +24,9 @@ __Camera calibration__ is the process which finds how much a given camera distor
 
 __Each camera has its own calibration__. You can't use camera A's calibration to undistort images taken by camera B, unless camera A and B have the same calibration.
 
+### Method
+Chess board iamges are extremely useful for camera calibration, because we know the exact shape of a given chessboard and a chessboard has straing lines, which make the computation rather easy.
+
+Our goal is to calibrate the camera which shot the driving video. Therefore, we gathered several chessboard images taken by the same camera.
+
 
