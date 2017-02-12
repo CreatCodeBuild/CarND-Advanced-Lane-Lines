@@ -46,7 +46,7 @@ You can run `test_Calibrator` function in __test.py__ to test this class. `test_
 ### Mixed Technique Binary Thresholding of Undistorted Image
 After first step, we need to binary thresholding this image so that we remove unnecessary information from this image.
 
-Here are some example:
+
   Undistored Color Image   | Binary Thresholded Image              
 :-------------------------:|:-------------------------:
 ![](test_images/test2.jpg)  |  ![](output_images/threshold/combined_threshold_test2.jpg)
