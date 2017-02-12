@@ -104,6 +104,24 @@ def test_perspective_transform():
 	# t.test()
 
 
+def test_find_radius():
+	def inner(name):
+		t = Transformer()
+		undistorted = cv2.imread('output_images/calibration/' + name + '.jpg')
+		thresholded_image = combined_threshold(undistorted, 'BGR')
+		warped, perspective_transform_matrix, inverse_perspective_transform_matrix = t.transform(thresholded_image)
+		left_fitx, right_fitx, ploty, left_fit, right_fit, leftx, rightx, lefty, righty = find_lines(warped)
+		find_radius(ploty, left_fit, right_fit, leftx, rightx, lefty, righty)
+	inner('straight_lines1')
+	inner('straight_lines2')
+	inner('test1')
+	inner('test2')
+	inner('test3')
+	inner('test4')
+	inner('test5')
+	inner('test6')
+
+
 def test_project_back():
 	def inner(name):
 		original = cv2.imread('test_images/'+name+'.jpg')
@@ -111,11 +129,15 @@ def test_project_back():
 		undistorted = cv2.imread('output_images/calibration/'+name+'.jpg')
 		thresholded_image = combined_threshold(undistorted, 'BGR')
 		warped, perspective_transform_matrix, inverse_perspective_transform_matrix = t.transform(thresholded_image)
-		left_fitx, right_fitx, ploty = find_lines(warped)
+		left_fitx, right_fitx, ploty, left_fit, right_fit, leftx, rightx, lefty, righty = find_lines(warped)
 
 		result = project_back(warped, original, undistorted, inverse_perspective_transform_matrix,
 							  left_fitx, right_fitx, ploty)
+		radius = find_radius(ploty, left_fit, right_fit, leftx, rightx, lefty, righty)
+		cv2.putText(result, 'Radius: '+str(radius)+' m', (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2,
+					bottomLeftOrigin=False)
 		cv2.imwrite('output_images/project_back/'+name+'.jpg', result)
+
 	inner('straight_lines1')
 	inner('straight_lines2')
 	inner('test1')
@@ -133,3 +155,4 @@ if __name__ == '__main__':
 	# test_combined_threshold()
 	# test_perspective_transform()
 	test_project_back()
+	# test_find_radius()
