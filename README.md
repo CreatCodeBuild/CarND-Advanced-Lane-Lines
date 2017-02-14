@@ -166,11 +166,29 @@ Now we have everything we need. We can just project useful information back to t
 ![](test_images/test3.jpg)  |  ![](output_images/project_back/test3.jpg)
 As you can see, top left corner shows the radius, and a green area is also drawn to indicate where the current lane is.
 
-You can see all the final images in `output_images/project_back`.
+```
+project_back(binary_warped, original_image, undistorted_image, inverse_perspective_transform_matrix, 
+             left_fitx, right_fitx, ploty)
+```
+in `helper.py` implemented this functionality.
 
-```
-project_back(binary_warped, original_image, undistorted_image, inverse_perspective_transform_matrix, left_fitx, right_fitx, ploty)
-```
+Run `test_project_back()` in `test.py` to test it. You can see all the final images in `output_images/project_back`.
 
 ## Video Pipeline
-Now we have each component ready. We can make a pipeline to process videos. 
+Now we have each component ready. We can make a pipeline to process videos. Please refer to `video_pipeline.py` to see the details.
+
+Bascially, I have a callback function which calls above individually routines one by one. This callback function is passed into a video process function that process a video frame by frame treating each frame an independent image. Moviepy is the module of choice.
+
+There are 3 versions of final output:
+1. project_video_out_v1.mp4
+2. project_video_out_v2.mp4
+3. project_video_out_v3.mp4
+
+v1 treats each frame as a new image and search the entire image for peaks, which cause some unstable result if the color of the road changes suddently. (A peak signal is just a rapid change of color. Therefore, v1 mistakes such a such as a lane line)
+
+v2 search for peaks in areas where lines are found in the last frame. Therefore, the reuslt is more stable when the color of the road is changing.
+
+v3 applied a averaging window, that is, the current result will be the average of 5 closest historical results. This way, the result is more stable.
+
+## End note
+I have not done challenge videos.
