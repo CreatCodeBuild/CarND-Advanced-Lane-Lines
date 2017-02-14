@@ -145,6 +145,13 @@ We need to fit 2 polynomials. One for left line, one for right line.
 
 The polinomial function is simple:
 
-f(y)=Ay
-​2
-​​ +By+C
+f(y)= Ay^2 + By + C
+
+`find_lines(binary_warped)` and ` search_near_last_frame(binary_warped, left_fit, right_fit)` in `helper.py` implemented the search and fit.
+
+## Curvature Computation
+We can use coefficiencies of the polymonial to compute a radius of a curve assuming a circle could be placed at a certain place of this polynomial.
+
+The math is:
+![](radius%20of%20curvature.PNG)
+
