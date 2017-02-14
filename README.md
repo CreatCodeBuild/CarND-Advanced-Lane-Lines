@@ -113,3 +113,19 @@ test_gradient_threshold()
 test_combined_threshold()
 ```
 in `test.py` to test it.
+
+## Bird View Perjection from Forward Facing Image
+In order to detect the degree of curvature of a lane, we need to project the forward facing image to a downward facing image, so say, a bird view image like this:
+
+  Original Image   | Bird View Image              
+:-------------------------:|:-------------------------:
+![](test_images/test5.jpg)  |  ![](output_images/transform/test5.jpg)
+
+This way, we are confident that the image is perpendicular to our view and we can measure the curvature correctly.
+
+`class Transformer` in `helper.py` implemented the perspective transform. `cv2.getPerspectiveTransform` and `cv2.warpPerspective` are the 2 most important functions used there.
+
+Run `test_perspective_transform()` in `test.py` to test it. All outputs are written to `output_images/transform`
+
+## Line Search and Second Order Curve Fitting
+Now we are ready to search where the line is and fit a second order polymonial to represent the curve.
