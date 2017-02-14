@@ -74,3 +74,12 @@ I applied sobel operator to compute the gradient. There are x direction and y di
 As you can see, sobel y catches the changes along the vertical direction. That is, horizontal lines are easily catches by sobel y because horizontal lines have very different color from its surrounding vertically.
 
 But, since lane lines need to be more vertical than horizontal, we choose sobel x as our gradient threshold.
+
+#### Saturation Channel Threshold
+Binary threshold is a powerful tool to filter useful information. But the conventional grayscale threshold has a obvious disadvantage. Colors with very different appearance in the RGB space could have the same value in grayscale. For example, after be converted to graysale, yellow is just gray. But very often our lane lines are yellow, the road is gray. We need to find a better way to separate them.
+
+![Original](https://d17h27t6h515a5.cloudfront.net/topher/2016/December/58532f15_test4/test4.jpg)
+![Grayscale Threshold](https://d17h27t6h515a5.cloudfront.net/topher/2016/December/58532f41_test4gray/test4gray.jpg)
+
+As you can see, yellow line is almost indistinguishable from the road and the threshold doesn't work well.
+
