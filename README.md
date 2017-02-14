@@ -112,7 +112,7 @@ test_s_threshold()
 test_gradient_threshold()
 test_combined_threshold()
 ```
-in `test.py` to test it.
+Nowin `test.py` to test it.
 
 ## Bird View Perjection from Forward Facing Image
 In order to detect the degree of curvature of a lane, we need to project the forward facing image to a downward facing image, so say, a bird view image like this:
@@ -155,3 +155,22 @@ We can use coefficiencies of the polymonial to compute a radius of a curve assum
 The math is:
 ![](radius%20of%20curvature.PNG)
 
+`find_radius(ploty, leftx, rightx, lefty, righty)` in `helper.py` implemented this. `test_find_radius()` in `tset.py` is the test for this functionality.
+
+## Project Results Back to Original Camera Image
+Now we have everything we need. We can just project useful information back to the original image.
+  Before   | After              
+:-------------------------:|:-------------------------:
+![](test_images/test1.jpg)  |  ![](output_images/project_back/test1.jpg)
+![](test_images/test2.jpg)  |  ![](output_images/project_back/test2.jpg)
+![](test_images/test3.jpg)  |  ![](output_images/project_back/test3.jpg)
+As you can see, top left corner shows the radius, and a green area is also drawn to indicate where the current lane is.
+
+You can see all the final images in `output_images/project_back`.
+
+```
+project_back(binary_warped, original_image, undistorted_image, inverse_perspective_transform_matrix, left_fitx, right_fitx, ploty)
+```
+
+## Video Pipeline
+Now we have each component ready. We can make a pipeline to process videos. 
