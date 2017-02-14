@@ -136,3 +136,15 @@ We can divide an image into several rows and search them row by rwo.
 ![](https://d17h27t6h515a5.cloudfront.net/topher/2017/January/588cf5e0_screen-shot-2017-01-28-at-11.49.20-am/screen-shot-2017-01-28-at-11.49.20-am.png)
 After we have a good search result, for next frame in a video, we can just search in a nearby maringal area as it was marked in this visualization.
 ![](https://d17h27t6h515a5.cloudfront.net/topher/2017/January/588d01c6_screen-shot-2017-01-28-at-12.39.43-pm/screen-shot-2017-01-28-at-12.39.43-pm.png)
+
+With all the peaks we found, we can do a second order polynomial fit. We don't need three order since it will introduce too much unstable curve.
+
+Also, __the polynomial fit is f(y) -> x instead of the conventional f(x) -> y__, because we might have multiple y values for the same x. But, since our sliding window search is done row by row, it's impossible to have multiple x values for the same y.
+
+We need to fit 2 polynomials. One for left line, one for right line.
+
+The polinomial function is simple:
+
+f(y)=Ay
+​2
+​​ +By+C
