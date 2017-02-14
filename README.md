@@ -97,3 +97,19 @@ Saturation is a good channel because it measures how dense color is at a certain
 ![S Channel](https://d17h27t6h515a5.cloudfront.net/topher/2016/December/58532f69_test4s-channel/test4s-channel.jpg)
 As you can see, S channel threshold gets a relatively complete line.
 
+You can refer to `output_images/threshold` to see threshold images on test iamges.
+
+This 3 functions in `helper.py` implemented threshold:
+```
+s_threshold(img, color_space='BGR')
+gradient_threshold(img, color_space='BGR')
+combined_threshold(img, color_space='BGR')
+```
+
+You can run
+```
+test_s_threshold()
+test_gradient_threshold()
+test_combined_threshold()
+```
+in `test.py` to test it.
