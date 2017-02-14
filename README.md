@@ -190,5 +190,7 @@ v2 search for peaks in areas where lines are found in the last frame. Therefore,
 
 v3 applied a averaging window, that is, the current result will be the average of 5 closest historical results. This way, the result is more stable.
 
+Run `video_pipeline.py` if you want to see the result yourself.
+
 ## End note
 I have not done challenge videos.
