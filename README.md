@@ -128,4 +128,11 @@ This way, we are confident that the image is perpendicular to our view and we ca
 Run `test_perspective_transform()` in `test.py` to test it. All outputs are written to `output_images/transform`
 
 ## Line Search and Second Order Curve Fitting
-Now we are ready to search where the line is and fit a second order polymonial to represent the curve.
+After applying undistortion, threholding and perspective transform, we can get an image like this
+![](https://d17h27t6h515a5.cloudfront.net/topher/2016/December/58422552_warped-example/warped-example.jpg)
+We can then treat pixel values as a signal and horizontally search the peak.
+![](https://d17h27t6h515a5.cloudfront.net/topher/2017/January/588cef47_screen-shot-2017-01-28-at-11.21.09-am/screen-shot-2017-01-28-at-11.21.09-am.png)
+We can divide an image into several rows and search them row by rwo.
+![](https://d17h27t6h515a5.cloudfront.net/topher/2017/January/588cf5e0_screen-shot-2017-01-28-at-11.49.20-am/screen-shot-2017-01-28-at-11.49.20-am.png)
+After we have a good search result, for next frame in a video, we can just search in a nearby maringal area as it was marked in this visualization.
+![](https://d17h27t6h515a5.cloudfront.net/topher/2017/January/588d01c6_screen-shot-2017-01-28-at-12.39.43-pm/screen-shot-2017-01-28-at-12.39.43-pm.png)
