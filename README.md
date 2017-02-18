@@ -159,6 +159,7 @@ The math is:
 
 ## Project Results Back to Original Camera Image
 Now we have everything we need. We can just project useful information back to the original image.
+
   Before   | After              
 :-------------------------:|:-------------------------:
 ![](test_images/test1.jpg)  |  ![](output_images/project_back/test1.jpg)
@@ -179,10 +180,13 @@ Now we have each component ready. We can make a pipeline to process videos. Plea
 
 Bascially, I have a callback function which calls above individually routines one by one. This callback function is passed into a video process function that process a video frame by frame treating each frame an independent image. Moviepy is the module of choice.
 
-There are 3 versions of final output:
+There are 4 versions of final output:
+0. project_video_out.mp4
 1. project_video_out_v1.mp4
 2. project_video_out_v2.mp4
 3. project_video_out_v3.mp4
+
+Only project_video_out.mp4 has the center offset. Please use project_video_out.mp4 as the final reference.
 
 v1 treats each frame as a new image and search the entire image for peaks, which cause some unstable result if the color of the road changes suddently. (A peak signal is just a rapid change of color. Therefore, v1 mistakes such a such as a lane line)
 
