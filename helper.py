@@ -1,14 +1,11 @@
-import cv2
 import os
 
-import numpy
-import numpy as np
-from scipy.misc import imresize
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 
 debug = False
+
 
 class Calibrator:
 
@@ -175,7 +172,7 @@ class Transformer:
 	def debug(self):
 		a = cv2.imread('output_images/calibration/straight_lines1.jpg')
 		print(a.shape)
-		a = region_of_interest(a, numpy.array([self.points]))
+		a = region_of_interest(a, np.array([self.points]))
 
 		cv2.imshow('', a)
 		cv2.waitKey(10000)
@@ -338,7 +335,7 @@ def search_near_last_frame(binary_warped, left_fit, right_fit):
 	return left_fitx, right_fitx, ploty, left_fit, right_fit, leftx, rightx, lefty, righty
 
 
-def find_radius(ploty, leftx, rightx, lefty, righty):
+def find_radius_and_center(ploty, leftx, rightx, lefty, righty):
 	y_eval = np.max(ploty)
 	# Define conversions in x and y from pixels space to meters
 	ym_per_pix = 30 / 720  # meters per pixel in y dimension
@@ -354,8 +351,11 @@ def find_radius(ploty, leftx, rightx, lefty, righty):
 	right_curve_radius = ((1 + (2 * right_fit_cr[0] * y_eval * ym_per_pix + right_fit_cr[1]) ** 2) ** 1.5) / np.absolute(
 		2 * right_fit_cr[0])
 
-	# Now our radius of curvature is in meters
-	return np.mean([left_curve_radius, right_curve_radius])
+	left_y_max = np.argmax(lefty)
+	right_y_max = np.argmax(righty)
+	center_x = (leftx[left_y_max] + rightx[right_y_max])/2
+	center_offset = (640 - center_x) * xm_per_pix
+	return np.mean([left_curve_radius, right_curve_radius]), center_offset
 
 
 def project_back(binary_warped, original_image, undistorted_image, inverse_perspective_transform_matrix,

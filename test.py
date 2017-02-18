@@ -45,73 +45,87 @@ def test_perspective_transform():
 	t = Transformer()
 
 	a = cv2.imread('output_images/calibration/straight_lines1.jpg')
-	a = t.transform(a)
+	a, _, _ = t.transform(a)
 	cv2.imwrite('output_images/transform/straight_lines1.jpg', a)
 
 	a = cv2.imread('output_images/calibration/straight_lines2.jpg')
-	a = t.transform(a)
+	a, _, _ = t.transform(a)
 	cv2.imwrite('output_images/transform/straight_lines2.jpg', a)
 
 	a = cv2.imread('output_images/calibration/test1.jpg')
-	a = t.transform(a)
+	a, _, _ = t.transform(a)
 	cv2.imwrite('output_images/transform/test1.jpg', a)
 
 	a = cv2.imread('output_images/calibration/test2.jpg')
-	a = t.transform(a)
+	a, _, _ = t.transform(a)
 	cv2.imwrite('output_images/transform/test2.jpg', a)
 
 	a = cv2.imread('output_images/calibration/test3.jpg')
-	a = t.transform(a)
+	a, _, _ = t.transform(a)
 	cv2.imwrite('output_images/transform/test3.jpg', a)
 
 	a = cv2.imread('output_images/calibration/test4.jpg')
-	a = t.transform(a)
+	a, _, _ = t.transform(a)
 	cv2.imwrite('output_images/transform/test4.jpg', a)
 
 	a = cv2.imread('output_images/calibration/test5.jpg')
-	a = t.transform(a)
+	a, _, _ = t.transform(a)
 	cv2.imwrite('output_images/transform/test5.jpg', a)
 
 	a = cv2.imread('output_images/calibration/test6.jpg')
-	a = t.transform(a)
+	a, _, _ = t.transform(a)
 	cv2.imwrite('output_images/transform/test6.jpg', a)
 
 	###
 	a = cv2.imread('output_images/threshold/combined_threshold_straight_lines1.jpg')
-	a = t.transform(a)
+	a, _, _ = t.transform(a)
 	cv2.imwrite('output_images/transform/combined_threshold_straight_lines1.jpg', a)
+
 	a = cv2.imread('output_images/threshold/combined_threshold_straight_lines2.jpg')
-	a = t.transform(a)
+	a, _, _ = t.transform(a)
 	cv2.imwrite('output_images/transform/combined_threshold_straight_lines2.jpg', a)
+
 	a = cv2.imread('output_images/threshold/combined_threshold_test1.jpg')
-	a = t.transform(a)
+	a, _, _ = t.transform(a)
 	cv2.imwrite('output_images/transform/combined_threshold_test1.jpg', a)
+
 	a = cv2.imread('output_images/threshold/combined_threshold_test2.jpg')
-	a = t.transform(a)
+	a, _, _ = t.transform(a)
 	cv2.imwrite('output_images/transform/combined_threshold_test2.jpg', a)
+
 	a = cv2.imread('output_images/threshold/combined_threshold_test3.jpg')
-	a = t.transform(a)
+	a, _, _ = t.transform(a)
 	cv2.imwrite('output_images/transform/combined_threshold_test3.jpg', a)
+
 	a = cv2.imread('output_images/threshold/combined_threshold_test4.jpg')
-	a = t.transform(a)
+	a, _, _ = t.transform(a)
 	cv2.imwrite('output_images/transform/combined_threshold_test4.jpg', a)
+
 	a = cv2.imread('output_images/threshold/combined_threshold_test5.jpg')
-	a = t.transform(a)
+	a, _, _ = t.transform(a)
 	cv2.imwrite('output_images/transform/combined_threshold_test5.jpg', a)
+
 	a = cv2.imread('output_images/threshold/combined_threshold_test6.jpg')
-	a = t.transform(a)
+	a, _, _ = t.transform(a)
 	cv2.imwrite('output_images/transform/combined_threshold_test6.jpg', a)
-	# t.test()
 
 
-def test_find_radius():
+def test_find_radius_and_center():
+	t = Transformer()
+
 	def inner(name):
-		t = Transformer()
 		undistorted = cv2.imread('output_images/calibration/' + name + '.jpg')
 		thresholded_image = combined_threshold(undistorted, 'BGR')
+
 		warped, perspective_transform_matrix, inverse_perspective_transform_matrix = t.transform(thresholded_image)
-		left_fitx, right_fitx, ploty, left_fit, right_fit, leftx, rightx, lefty, righty = find_lines(warped)
-		find_radius(ploty, left_fit, right_fit, leftx, rightx, lefty, righty)
+		left_fit, right_fit = find_lines(warped)
+
+		left_fitx, right_fitx, ploty, left_fit, right_fit, leftx, rightx, lefty, righty = \
+			search_near_last_frame(warped, left_fit, right_fit)
+
+		radius, center_offset = find_radius_and_center(ploty, leftx, rightx, lefty, righty)
+		print(radius, center_offset)
+
 	inner('straight_lines1')
 	inner('straight_lines2')
 	inner('test1')
@@ -123,18 +137,27 @@ def test_find_radius():
 
 
 def test_project_back():
+	t = Transformer()
+
 	def inner(name):
 		original = cv2.imread('test_images/'+name+'.jpg')
-		t = Transformer()
 		undistorted = cv2.imread('output_images/calibration/'+name+'.jpg')
 		thresholded_image = combined_threshold(undistorted, 'BGR')
 		warped, perspective_transform_matrix, inverse_perspective_transform_matrix = t.transform(thresholded_image)
-		left_fitx, right_fitx, ploty, left_fit, right_fit, leftx, rightx, lefty, righty = find_lines(warped)
+
+		left_fit, right_fit = find_lines(warped)
+		left_fitx, right_fitx, ploty, left_fit, right_fit, leftx, rightx, lefty, righty = \
+			search_near_last_frame(warped, left_fit, right_fit)
 
 		result = project_back(warped, original, undistorted, inverse_perspective_transform_matrix,
 							  left_fitx, right_fitx, ploty)
-		radius = find_radius(ploty, left_fit, right_fit, leftx, rightx, lefty, righty)
+
+		radius, center_offset = find_radius_and_center(ploty, leftx, rightx, lefty, righty)
+
 		cv2.putText(result, 'Radius: '+str(radius)+' m', (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2,
+					bottomLeftOrigin=False)
+		cv2.putText(result, 'Center Offset: ' + str(center_offset) + ' m', (50, 100),
+					cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2,
 					bottomLeftOrigin=False)
 		cv2.imwrite('output_images/project_back/'+name+'.jpg', result)
 
@@ -154,5 +177,5 @@ if __name__ == '__main__':
 	# test_gradient_threshold()
 	# test_combined_threshold()
 	# test_perspective_transform()
+	# test_find_radius_and_center()
 	test_project_back()
-	# test_find_radius()
