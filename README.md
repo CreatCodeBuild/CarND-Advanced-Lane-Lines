@@ -7,7 +7,7 @@ My pipeline is composed by the following steps
     __2. Mixed Technique Binary Thresholding of Undistorted Image__  
     __3. Bird View Perjection from Forward Facing Image__  
     __4. Line Search and Second Order Curve Fitting__  
-    __5. Curvature Computation__  
+    __5. Curvature Computation (Find Radius and Center Offset)__  
     __6. Project Results Back to Original Camera Image__  
     
     
@@ -149,13 +149,16 @@ f(y)= Ay^2 + By + C
 
 `find_lines(binary_warped)` and ` search_near_last_frame(binary_warped, left_fit, right_fit)` in `helper.py` implemented the search and fit.
 
-## Curvature Computation
+## Curvature Computation (Find Radius and Center Offset)
 We can use coefficiencies of the polymonial to compute a radius of a curve assuming a circle could be placed at a certain place of this polynomial.
 
 The math is:
 ![](radius%20of%20curvature.PNG)
 
-`find_radius(ploty, leftx, rightx, lefty, righty)` in `helper.py` implemented this. `test_find_radius()` in `tset.py` is the test for this functionality.
+Center Offset is easy to compute. It is the `640 - center of the road`, where center of the road is the midpoint between left line and right line. 640 is the image center, assuming the camera is placed at the center of the car.
+
+`find_radius_and_center_offset(ploty, leftx, rightx, lefty, righty)` in `helper.py` implemented this.
+`test_find_radius_and_center_offset()` in `tset.py` is the test for this functionality.
 
 ## Project Results Back to Original Camera Image
 Now we have everything we need. We can just project useful information back to the original image.
