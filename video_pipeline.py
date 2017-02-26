@@ -101,4 +101,4 @@ def video_pipeline(video_file, output_file, process_method):
 
 
 if __name__ == "__main__":
-    video_pipeline("project_video.mp4", "project_video_out.mp4", pipeline)
+    video_pipeline("project_video.mp4", "project_video_out_new2.mp4", pipeline)

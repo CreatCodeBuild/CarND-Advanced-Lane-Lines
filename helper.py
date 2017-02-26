@@ -284,7 +284,7 @@ def search_near_last_frame(binary_warped, left_fit, right_fit):
 	nonzero = binary_warped.nonzero()
 	nonzeroy = np.array(nonzero[0])
 	nonzerox = np.array(nonzero[1])
-	margin = 100
+	margin = 30
 	left_lane_inds = (
 		(nonzerox > (left_fit[0] * (nonzeroy ** 2) + left_fit[1] * nonzeroy + left_fit[2] - margin)) &
 		(nonzerox < (left_fit[0] * (nonzeroy ** 2) + left_fit[1] * nonzeroy + left_fit[2] + margin)))
