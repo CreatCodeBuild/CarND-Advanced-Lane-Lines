@@ -199,5 +199,7 @@ v3 applied a averaging window, that is, the current result will be the average o
 
 Run `video_pipeline.py` if you want to see the result yourself.
 
-## End note
-I have not done challenge videos.
+## End Discussion
+If you compare the outputs of project video, challenge video and harder challenge video, you will find that the pipeline perform terribly on challenge videos. First, the pipeline has no concept of "lane". The algorithm is just finding lines. In the challenge video, the road is divided by 2 materials where a obvious line is between 2 materials. The algorihtm mistake that line as the lane line. In the harder challenge, due the extreme lighting condition, the algorithm failed to detect useful lines for many times. No good recovery method is implemented in the pipeline.
+
+There are a lot of rooms to improve. A good recovery mechanism and a good line likelihood should be implemented at least.s
